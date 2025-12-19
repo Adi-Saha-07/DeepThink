@@ -22,7 +22,6 @@ reveals.forEach(el => observer.observe(el));
 // =========================
 // preloader
 // =========================
-document.body.style.overflow = "hidden";
 
 window.addEventListener("load", () => {
     const preloader = document.getElementById("preloader");
