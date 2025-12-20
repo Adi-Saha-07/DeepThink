@@ -687,9 +687,11 @@ body.dark
 footer {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     text-align: center;
+    align-content: center;
     padding: 20px;
     font-size: 13px;
     font-weight: 400;
+    height: 20vh;
     background: #474747;
     color: #eeeeee;
 }
@@ -983,3 +985,4 @@ body.dark
 #submit-btn:hover {
     box-shadow: 0 5px 15px rgba(40,167,69,0.35);
 }
+
