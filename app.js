@@ -39,7 +39,8 @@ window.addEventListener("load", () => {
 const body = document.body;
 const savedTheme = localStorage.getItem("theme");
 
-if (savedTheme === "dark") {
+// Default to dark theme if no theme is saved
+if (savedTheme === "dark" || !savedTheme) {
   body.classList.add("dark");
 }
 
@@ -393,3 +394,4 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
+
