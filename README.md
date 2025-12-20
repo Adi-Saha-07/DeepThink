@@ -53,13 +53,3 @@ DeepThink focuses on:
 5. Read your generated summary and optionally restart the quiz.
 
 ---
-
-## 📁 Project Structure
-```bash
-DeepThink/
-│
-├── Index.html      # Landing page with overview, test cards, info sections, and philosophy text
-├── index2.html     # 10-question timed quiz page with timer, progress, navigation, and result summary
-├── Styles.css      # Global styling, dark mode, animations, quiz UI, and responsive layout
-└── app.js          # Theme toggle, scroll reveal, canvas lights, quiz logic, timer, and scoring
-
