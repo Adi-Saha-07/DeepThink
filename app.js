@@ -380,3 +380,16 @@ document.addEventListener("DOMContentLoaded", () => {
         restartBtn.addEventListener("click", restartQuiz);
     }
 });
+
+    // TEST CARDS COMING SOON ALERT - NEW CODE
+    const testCards = document.querySelectorAll('.test-card a');
+    testCards.forEach(link => {
+        link.addEventListener('click', function(e) {
+            const text = this.textContent.trim();
+            if (text === '30 Questions' || text === '50 Questions') {
+                e.preventDefault();
+               alert('Coming Soon!\n\n10 Questions test is ready to use\n30 & 50 Questions tests in development');
+                return false;
+            }
+        });
+    });
