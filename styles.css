@@ -902,7 +902,7 @@ body.dark .footer-section {
 
 .footer-contact a {
     color: #7a8fd4;
-    text-decoration: none;
+    text-decoration: underline;
     transition: color 0.3s ease;
 }
 
@@ -1211,4 +1211,5 @@ body.dark
 #submit-btn:hover {
     box-shadow: 0 5px 15px rgba(40,167,69,0.35);
 }
+
 
