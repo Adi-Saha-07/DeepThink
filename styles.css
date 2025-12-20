@@ -1,3 +1,4 @@
+/* RESET */
 * {
     margin: 0;
     padding: 0;
@@ -5,6 +6,7 @@
     font-family: "Segoe UI", sans-serif;
 }
 
+/* ALL BLUE FOCUS STATES REMOVE */
 *,
 *:focus,
 *:active,
@@ -851,8 +853,8 @@ body.dark .footer-section {
 }
 
 .footer-links a {
-    color: rgba(255,255,255,0.8);
-    text-decoration: none;
+    color: rgba(244, 244, 244, 0.8);
+    text-decoration: underline;
     font-size: 14px;
     font-weight: 500;
     padding: 8px 16px;
@@ -862,8 +864,7 @@ body.dark .footer-section {
 }
 
 .footer-links a:hover {
-    color: #2d2d2d;
-    background: rgba(213, 213, 213, 0.721);
+    color: #999999;
     backdrop-filter: blur(10px);
     transform: translateY(-2px);
 }
