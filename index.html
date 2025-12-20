@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DeepThink</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="pic/title.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="pic/title.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="pic/title.png">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -11,7 +14,7 @@
 
     <header>
         <div class="leftHead">
-            <h3><span class="circle"></span> DeepThink </h3>
+            <h3><span class="circle"></span> DeepThink</h3>
         </div>
         <div class="header-right">
         <h4>Theme</h4>
@@ -22,17 +25,21 @@
     </header>
 
     <section class="main start-only">
-        <div class="maintop">
-            <h2 class="maintoph2">
-                <b class="mainh2">DeepThink</b> is a personality analysis platform<br>
-                designed to help you explore how you think, decide, and respond —
-                based on structured questions and psychological patterns, not random guesses.
-            </h2>
+        <div class="logo-section">
+            <img src="Pic/title.png" alt="DeepThink Logo" class="logo-img">
         </div>
 
-        <div class="start-wrap">
-            <button class="start-btn" onclick="showOptions()">Start</button>
-        </div>
+    <div class="maintop">
+        <h2 class="maintoph2">
+            <b class="mainh2">DeepThink</b> is a personality analysis platform<br>
+            designed to help you explore how you think, decide, and respond —
+            based on structured questions and psychological patterns, not random guesses.
+        </h2>
+    </div>
+
+    <div class="start-wrap">
+        <button class="start-btn" onclick="showOptions()">Start</button>
+    </div>
 
         <div class="centermain hidden">
             <div class="test-card">
@@ -52,6 +59,9 @@
         </div>
     </section>
 
+
+
+    
 <section class="info-section reveal">
     <h3>What DeepThink Helps You Understand</h3>
     <p class="info-intro">
@@ -61,6 +71,9 @@
 
     <div class="info-grid reveal">
         <div class="info-box">
+            <div class="info-icon">
+                <img src="Pic/introbox/pic1.png" alt="Thinking Style" class="circle-icon">
+            </div>
             <h4>Thinking Style</h4>
             <p>
                 How you process information, analyze situations,
@@ -69,6 +82,9 @@
         </div>
 
         <div class="info-box reveal">
+            <div class="info-icon">
+                <img src="Pic/introbox/pic2.png" alt="Decision Behavior" class="circle-icon">
+            </div>
             <h4>Decision Behavior</h4>
             <p>
                 The balance between logic, emotion, caution, and instinct
@@ -77,6 +93,9 @@
         </div>
 
         <div class="info-box reveal">
+            <div class="info-icon">
+                <img src="Pic/introbox/pic3.png" alt="Emotional Response" class="circle-icon">
+            </div>
             <h4>Emotional Response</h4>
             <p>
                 How you react under pressure, uncertainty,
@@ -85,6 +104,7 @@
         </div>
     </div>
 </section>
+
 
 <section class="philosophy-section reveal">
     <h3>Our Philosophy</h3>
@@ -114,6 +134,3 @@
 </body>
 <script src="app.js"></script>
 </html>
-
-
-
