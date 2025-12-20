@@ -884,7 +884,7 @@ body.dark .footer-section {
 
 .Developed a {
     color: #7a8fd4;
-    text-decoration: none;
+    text-decoration: underline;
     font-weight: 600;
     transition: all 0.3s ease;
 }
@@ -900,7 +900,7 @@ body.dark .footer-section {
     margin: 0;
 }
 
-.footer-contact a {
+/* .footer-contact a {
     color: #7a8fd4;
     text-decoration: underline;
     transition: color 0.3s ease;
@@ -908,7 +908,7 @@ body.dark .footer-section {
 
 .footer-contact a:hover {
     color: #9aafe4;
-}
+} */
 
 /* Mobile */
 @media (max-width: 768px) {
@@ -1211,5 +1211,4 @@ body.dark
 #submit-btn:hover {
     box-shadow: 0 5px 15px rgba(40,167,69,0.35);
 }
-
 
