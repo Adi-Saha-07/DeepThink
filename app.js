@@ -153,259 +153,230 @@ if (mainSection) {
 // 10 QUESTIONS QUIZ (index2.html)
 // =========================
 document.addEventListener("DOMContentLoaded", () => {
-  const startBtn = document.getElementById("start-btn");
-  const quizStart = document.querySelector(".quiz-start");
-  const quizContent = document.querySelector(".quiz-content");
+    const startBtn = document.getElementById("start-btn");
+    const quizStart = document.querySelector(".quiz-start");
+    const quizContent = document.querySelector(".quiz-content");
+    const timerDisplay = document.getElementById("timer-display");
+    const questionsForm = document.getElementById("questionsForm");
+    const questions = document.querySelectorAll(".question");
+    const progressText = document.getElementById("progress-text");
+    const progressFill = document.getElementById("progress-fill");
+    const prevBtn = document.getElementById("prev-btn");
+    const nextBtn = document.getElementById("next-btn");
+    const submitBtn = document.getElementById("submit-btn");
+    const popup = document.querySelector(".popup");
+    const resultBox = document.querySelector(".result");
+    const resultText = document.querySelector(".result-text");
+    const restartBtn = document.getElementById("restart-btn");  
 
-  const timerDisplay = document.getElementById("timer-display");
-  const questionsForm = document.getElementById("questionsForm");
-  const questions = document.querySelectorAll(".question");
-  const progressText = document.getElementById("progress-text");
-  const progressFill = document.getElementById("progress-fill");
-  const prevBtn = document.getElementById("prev-btn");
-  const nextBtn = document.getElementById("next-btn");
-  const submitBtn = document.getElementById("submit-btn");
-  const popup = document.querySelector(".popup");
-  const resultBox = document.querySelector(".result");
-  const resultText = document.querySelector(".result-text");
-
-  if (
-    !startBtn ||
-    !quizStart ||
-    !quizContent ||
-    !timerDisplay ||
-    !questionsForm ||
-    !progressText ||
-    !progressFill ||
-    !prevBtn ||
-    !nextBtn ||
-    !submitBtn ||
-    !popup ||
-    !resultBox ||
-    !resultText
-  ) {
-    return;
-  }
-
-  const totalQuestions = questions.length;
-  let currentQuestionIndex = 0;
-  let timeLeft = 10 * 60;
-  let timerInterval = null;
-
-  quizContent.style.display = "none";
-  resultBox.style.display = "none";
-  popup.style.display = "none";
-
-  let nextClickedOnLast = false;
-
-  // ---------- START QUIZ ----------
-  startBtn.addEventListener("click", () => {
-    quizStart.style.display = "none";
-    quizContent.style.display = "block";
-    quizContent.classList.add("show");
-    currentQuestionIndex = 0;
-    nextClickedOnLast = false;
-    showQuestion(0);
-    updateProgress();
-    startTimer();
-  });
-
-  // ---------- TIMER ----------
-  function startTimer() {
-    updateTimerDisplay();
-    timerInterval = setInterval(() => {
-      timeLeft--;
-      updateTimerDisplay();
-      if (timeLeft <= 0) {
-        clearInterval(timerInterval);
-        autoSubmit();
-      }
-    }, 1000);
-  }
-
-  function updateTimerDisplay() {
-    const minutes = Math.floor(timeLeft / 60)
-      .toString()
-      .padStart(2, "0");
-    const seconds = (timeLeft % 60).toString().padStart(2, "0");
-    timerDisplay.textContent = `${minutes}:${seconds}`;
-  }
-
-  // ---------- SHOW QUESTION ----------
-  function showQuestion(index) {
-    questions.forEach((q) => q.classList.remove("active"));
-    questions[index].classList.add("active");
-    currentQuestionIndex = index;
-
-    progressText.textContent = `Question ${index + 1} of ${totalQuestions}`;
-
-    if (index === 0) {
-      // first
-      prevBtn.style.display = "inline-block";
-      prevBtn.disabled = true;
-      nextBtn.style.display = "inline-block";
-      submitBtn.style.display = "none";
-      nextClickedOnLast = false;
-    } else if (index > 0 && index < totalQuestions - 1) {
-
-      prevBtn.style.display = "inline-block";
-      prevBtn.disabled = false;
-      nextBtn.style.display = "inline-block";
-      submitBtn.style.display = "none";
-      nextClickedOnLast = false;
-    } else if (index === totalQuestions - 1) {
-
-        
-      if (!nextClickedOnLast) {
-        prevBtn.style.display = "inline-block";
-        prevBtn.disabled = false;
-        nextBtn.style.display = "inline-block";
-        submitBtn.style.display = "none";
-      } else {
-
-        prevBtn.style.display = "none";
-        nextBtn.style.display = "none";
-        submitBtn.style.display = "inline-block";
-      }
+    if (
+        !startBtn || !quizStart || !quizContent || !timerDisplay ||
+        !questionsForm || !progressText || !progressFill ||
+        !prevBtn || !nextBtn || !submitBtn || !popup || !resultBox || !resultText
+    ) {
+        return;
     }
 
-    checkCurrentAnswered();
-  }
+    const totalQuestions = questions.length;
+    let currentQuestionIndex = 0;
+    let timeLeft = 10 * 60;
+    let timerInterval = null;
+    let nextClickedOnLast = false;
 
-  // ---------- PREV / NEXT ----------
-  prevBtn.addEventListener("click", () => {
-    if (currentQuestionIndex > 0) {
-      currentQuestionIndex--;
-      nextClickedOnLast = false; 
-      showQuestion(currentQuestionIndex);
-    }
-  });
+    quizContent.style.display = "none";
+    resultBox.style.display = "none";
+    popup.style.display = "none";
 
-  nextBtn.addEventListener("click", () => {
-
-    if (currentQuestionIndex < totalQuestions - 1) {
-      currentQuestionIndex++;
-
-      showQuestion(currentQuestionIndex);
-    } else if (currentQuestionIndex === totalQuestions - 1) {
-
-      nextClickedOnLast = true;
-      showQuestion(currentQuestionIndex);
-    }
-  });
-
-  // ---------- ENABLE NEXT ----------
-  function checkCurrentAnswered() {
-    const qNumber = currentQuestionIndex + 1;
-    const selected = questionsForm.querySelector(
-      `input[name="q${qNumber}"]:checked`
-    );
-
-    if (currentQuestionIndex === totalQuestions - 1) {
-
-      if (nextBtn.style.display !== "none") {
-        nextBtn.disabled = !selected;
-      }
-    } else {
-      nextBtn.disabled = !selected;
-    }
-  }
-
-  // ---------- PROGRESS (sirf answer pe badhe) ----------
-  questionsForm.addEventListener("change", (e) => {
-    if (e.target.matches('input[type="radio"]')) {
-      checkCurrentAnswered();
-      updateProgress();
-    }
-  });
-
-  function updateProgress() {
-    const answeredCount = countAnswered();
-    const progressPercent = (answeredCount / totalQuestions) * 100;
-    progressFill.style.width = `${progressPercent}%`;
-  }
-
-  function countAnswered() {
-    let count = 0;
-    for (let i = 1; i <= totalQuestions; i++) {
-      const chosen = questionsForm.querySelector(`input[name="q${i}"]:checked`);
-      if (chosen) count++;
-    }
-    return count;
-  }
-
-  // ---------- SUBMIT / RESULT ----------
-  questionsForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    handleSubmit(false);
-  });
-
-  function autoSubmit() {
-    handleSubmit(true);
-  }
-
-  function handleSubmit(fromTimer) {
-    clearInterval(timerInterval);
-    popup.style.display = "block";
-    setTimeout(() => {
-      popup.style.display = "none";
-      calculatePersonality(fromTimer);
-    }, 1200);
-  }
-
-  function calculatePersonality(fromTimer) {
-    const answers = [];
-    for (let i = 1; i <= totalQuestions; i++) {
-      const ans = questionsForm.querySelector(`input[name="q${i}"]:checked`);
-      answers.push(ans ? ans.value : "Not answered");
-    }
-
-    let score = 0;
-    answers.forEach((v) => {
-      if (v === "Yes") score += 2;
-      else if (v === "Not sure") score += 1;
+    // START QUIZ (start-btn)
+    startBtn.addEventListener("click", () => {
+        quizStart.style.display = "none";
+        quizContent.style.display = "block";
+        quizContent.classList.add("show");
+        currentQuestionIndex = 0;
+        nextClickedOnLast = false;
+        showQuestion(0);
+        updateProgress();
+        startTimer();
     });
 
-    let summary = "";
-    if (score >= 16) {
-      summary =
-        "You show a strong balance of logical thinking, planning, and emotional stability. You likely handle challenges confidently and enjoy structured growth.";
-    } else if (score >= 10) {
-      summary =
-        "You have many developing strengths in decision-making and self-reflection. With a bit more consistency, you can become even more clear and confident.";
-    } else {
-      summary =
-        "You may still be exploring your style of thinking and reacting. Taking time to know your patterns can help you grow more intentional and calm.";
-    }
-
-    if (fromTimer) {
-      summary += " The quiz was auto-submitted when the time ended.";
-    }
-
-    resultText.textContent = summary;
-    resultBox.style.display = "block";
-  }
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    // THEME HANDLING 
-    const body = document.body;
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-        body.classList.add('dark');
-    }
-
-    // TEST CARDS COMING SOON ALERT - NEW CODE
-    const testCards = document.querySelectorAll('.test-card a');
-    testCards.forEach(link => {
-        link.addEventListener('click', function(e) {
-            const text = this.textContent.trim();
-            if (text === '30 Questions' || text === '50 Questions') {
-                e.preventDefault();
-               alert('Coming Soon!\n\n10 Questions test is ready to use\n30 & 50 Questions tests in development');
-                return false;
+    function startTimer() {
+        updateTimerDisplay();
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            updateTimerDisplay();
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                autoSubmit();
             }
-        });
+        }, 1000);
+    }
+
+    function updateTimerDisplay() {
+        const minutes = Math.floor(timeLeft / 60).toString().padStart(2, "0");
+        const seconds = (timeLeft % 60).toString().padStart(2, "0");
+        timerDisplay.textContent = `${minutes}:${seconds}`;
+    }
+
+    function showQuestion(index) {
+        questions.forEach(q => q.classList.remove("active"));
+        questions[index].classList.add("active");
+        currentQuestionIndex = index;
+        progressText.textContent = `Question ${index + 1} of ${totalQuestions}`;
+
+        if (index === 0) {
+            prevBtn.style.display = "inline-block";
+            prevBtn.disabled = true;
+            nextBtn.style.display = "inline-block";
+            submitBtn.style.display = "none";
+            nextClickedOnLast = false;
+        } else if (index > 0 && index < totalQuestions - 1) {
+            prevBtn.style.display = "inline-block";
+            prevBtn.disabled = false;
+            nextBtn.style.display = "inline-block";
+            submitBtn.style.display = "none";
+            nextClickedOnLast = false;
+        } else if (index === totalQuestions - 1) {
+            if (!nextClickedOnLast) {
+                prevBtn.style.display = "inline-block";
+                prevBtn.disabled = false;
+                nextBtn.style.display = "inline-block";
+                submitBtn.style.display = "none";
+            } else {
+                prevBtn.style.display = "none";
+                nextBtn.style.display = "none";
+                submitBtn.style.display = "inline-block";
+            }
+        }
+
+        checkCurrentAnswered();
+    }
+
+    prevBtn.addEventListener("click", () => {
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--;
+            nextClickedOnLast = false;
+            showQuestion(currentQuestionIndex);
+        }
     });
 
+    nextBtn.addEventListener("click", () => {
+        if (currentQuestionIndex < totalQuestions - 1) {
+            currentQuestionIndex++;
+            showQuestion(currentQuestionIndex);
+        } else if (currentQuestionIndex === totalQuestions - 1) {
+            nextClickedOnLast = true;
+            showQuestion(currentQuestionIndex);
+        }
+    });
+
+    function checkCurrentAnswered() {
+        const qNumber = currentQuestionIndex + 1;
+        const selected = questionsForm.querySelector(`input[name="q${qNumber}"]:checked`);
+        if (currentQuestionIndex === totalQuestions - 1) {
+            if (nextBtn.style.display !== "none") {
+                nextBtn.disabled = !selected;
+            }
+        } else {
+            nextBtn.disabled = !selected;
+        }
+    }
+
+    questionsForm.addEventListener("change", (e) => {
+        if (e.target.matches('input[type="radio"]')) {
+            checkCurrentAnswered();
+            updateProgress();
+        }
+    });
+
+    function updateProgress() {
+        let count = 0;
+        for (let i = 1; i <= totalQuestions; i++) {
+            const chosen = questionsForm.querySelector(`input[name="q${i}"]:checked`);
+            if (chosen) count++;
+        }
+        const progressPercent = (count / totalQuestions) * 100;
+        progressFill.style.width = `${progressPercent}%`;
+    }
+
+    questionsForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        handleSubmit(false);
+    });
+
+    function autoSubmit() {
+        handleSubmit(true);
+    }
+
+    function handleSubmit(fromTimer) {
+        clearInterval(timerInterval);
+        popup.style.display = "block";
+
+        setTimeout(() => {
+            popup.style.display = "none";
+            calculatePersonality(fromTimer);
+
+            resultBox.style.display = "block";
+            prevBtn.style.display = "none";
+            nextBtn.style.display = "none";
+            submitBtn.style.display = "none";
+            if (restartBtn) restartBtn.style.display = "inline-block";
+        }, 1200);
+    }
+
+    function calculatePersonality(fromTimer) {
+        const answers = [];
+        for (let i = 1; i <= totalQuestions; i++) {
+            const ans = questionsForm.querySelector(`input[name="q${i}"]:checked`);
+            answers.push(ans ? ans.value : "Not answered");
+        }
+        let score = 0;
+        answers.forEach(v => {
+            if (v === "Yes") score += 2;
+            else if (v === "Not sure") score += 1;
+        });
+
+        let summary = "";
+        if (score >= 16) {
+            summary = "You show a strong balance of logical thinking, planning, and emotional stability. You likely handle challenges confidently and enjoy structured growth.";
+        } else if (score >= 10) {
+            summary = "You have many developing strengths in decision-making and self-reflection. With a bit more consistency, you can become even more clear and confident.";
+        } else {
+            summary = "You may still be exploring your style of thinking and reacting. Taking time to know your patterns can help you grow more intentional and calm.";
+        }
+        if (fromTimer) {
+            summary += " The quiz was auto-submitted when the time ended.";
+        }
+        resultText.textContent = summary;
+    }
+
+    // ========== RESTART QUIZ ==========
+    function restartQuiz() {
+        questionsForm.reset();
+        resultBox.style.display = "none";
+
+        currentQuestionIndex = 0;
+        timeLeft = 10 * 60;
+        nextClickedOnLast = false;
+
+        if (timerInterval) clearInterval(timerInterval);
+        updateTimerDisplay();
+
+        if (restartBtn) restartBtn.style.display = "none";
+        prevBtn.style.display = "inline-block";
+        prevBtn.disabled = true;
+        nextBtn.style.display = "inline-block";
+        nextBtn.disabled = true;
+        submitBtn.style.display = "none";
+
+        quizStart.style.display = "none";
+        quizContent.style.display = "block";
+
+        showQuestion(0);
+        updateProgress();
+        startTimer();
+    }
+
+    if (restartBtn) {
+        restartBtn.addEventListener("click", restartQuiz);
+    }
 });
